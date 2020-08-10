@@ -1,11 +1,11 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 
-TEST = Blueprint("TEST", __name__)
+TEST = Blueprint("TEST", __name__, template_folder = "templates")
 
 @TEST.route("/", methods = ["GET", "POST"])
 def test():
     if request.method == "GET":
-        return "This is a test."
+        return render_template("test.html")
     elif request.method == "POST":
         try:
             data = request.get_json()
