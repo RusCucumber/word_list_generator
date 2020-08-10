@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, render_template
 
 TEST = Blueprint("TEST", __name__, template_folder = "templates")
 
-@TEST.route("/", methods = ["GET", "POST"])
+@TEST.route("/test", methods = ["GET", "POST"])
 def test():
     if request.method == "GET":
         return render_template("test.html")
