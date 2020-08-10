@@ -81,6 +81,9 @@ git push origin feature/適当なブランチ名
     - .gitignoreファイルを作り、適当な内容を書き込むことで、``git add .``の対象外にすることができる。
     - 以下のサイト等を参考にすると良い
         - [.gitignore の書き方。ファイル/ディレクトリの除外と反映方法](https://www-creators.com/archives/1662#gitignore-3)
+        
+- git add コマンドで、コミットするファイルの指定
+    - 例えば、test.txtというファイルのみコミットしたい場合は、``git add test.txt``とコマンドを打ち、コミットすれば良い。
 
 #### 参考サイト
 [Githubでチーム開発するためのマニュアル](https://qiita.com/siida36/items/880d92559af9bd245c34)
