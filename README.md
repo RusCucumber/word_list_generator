@@ -33,6 +33,8 @@ git checkout master
 
 2. pullし、ローカルを最新にする
 ```
+git pull
+// 若しくは、
 git pull origin master
 ```
 
