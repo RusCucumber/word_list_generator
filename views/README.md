@@ -19,7 +19,7 @@ NTLKに必要なファイルをダウンロードする。
 
 文章と単語（インデックス）を指定して、英単語を基本形へ変換する。
 
-- URI: http://.../nltk/lemmatasion
+- URI: http://.../nltk/lemmatitasion
 - method: POST
 - header: "Application/Json
 - json: {"sentece": 英文章, "index": レンマ化したい単語のインデックス}
