@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, render_template
 from mods.NltkLemmatizer import NltkLemmatizer
 from mods.check_parameter import check_parameter
 
-GET_WORDS = Blueprint("GET_WORDS", __name__, url_prefix = "/nltk") 
+GET_WORDS = Blueprint("GET_WORDS", __name__, url_prefix = "/api") 
 
 @GET_WORDS.route("/lemmatisation", methods = ["POST"])
 def get_words():
@@ -15,7 +15,7 @@ def get_words():
         try:
             lem = NltkLemmatizer(sentence)
             lem.set_index(index)
-            response["word_list"].extend(lem.Lemmatize(marked_word = True))
+            response["word_list"].extend(lem.Lemmatize(marked_word = True, caribration = True))
             response["status"] = "Lemmatize success"
             response["result"] = "OK"
         except:

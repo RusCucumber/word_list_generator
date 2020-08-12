@@ -7,12 +7,14 @@ class NltkLemmatizer():
     def __init__(self, sentence):
         self.__sentence = sentence
         self.__index = None
+        self.__lemmatized_list = []
+        self.__marked_words_list = []
 
     def set_index(self, index):
         self.__index = index
         self.__find_marked_words()
 
-    def Lemmatize(self, marked_word = False):
+    def Lemmatize(self, marked_word = False, caribration = False):
         tagged_sentence = self.__tag(self.__tokenize(self.__sentence))
 
         for word, tag in tagged_sentence:
@@ -25,20 +27,52 @@ class NltkLemmatizer():
 
             if marked_word:
                 if word == self.__marked_words_list[0]:
-                    self.__lemmatized_list.append(WordNetLemmatizer().lemmatize(word, pos))
+                    self.__lemmatize(word, pos, caribration)
                     self.__marked_words_list.pop(0)
-                if len(self.__marked_words_list) == 0:
-                    break
+
+                    if len(self.__marked_words_list) == 0:
+                        break
             else:
-                self.__lemmatized_list.append(WordNetLemmatizer().lemmatize(word, pos))
+                self.__lemmatize(word, pos, caribration)
                 
         return self.__lemmatized_list
+
+    def get_marked_words(self):
+        return self.__marked_words_list
 
     def __tokenize(self, sentence):
         return word_tokenize(sentence)
 
     def __tag(self, tokenized_sentence):
         return pos_tag(tokenized_sentence)
+
+    def __lemmatize(self, word, pos, caribration_flag):
+        lemmatized_word = WordNetLemmatizer().lemmatize(word, pos)
+        if caribration_flag:
+            self.__caribration(lemmatized_word)
+        else: 
+            self.__lemmatized_list.append(lemmatized_word)
+
+    def __caribration(self, lemmatized_word):
+        if lemmatized_word == "n't":
+            if len(self.__lemmatized_list) != 0 and self.__lemmatized_list[-1] == "ca":
+                self.__lemmatized_list[-1] = self.__lemmatized_list[-1] + lemmatized_word
+            else:
+                lemmatized_word = "not"
+                self.__lemmatized_list.append(lemmatized_word)
+            return
+
+        regex = re.compile("^" + self.__symbols + "$")
+        if regex.match(lemmatized_word):
+            return
+
+        regex = re.compile("^'[a-zA-Z]+")
+        if regex.match(lemmatized_word):
+            if len(self.__lemmatized_list) != 0:
+                self.__lemmatized_list[-1] = self.__lemmatized_list[-1] + lemmatized_word
+                return 
+
+        self.__lemmatized_list.append(lemmatized_word)   
 
     def __find_marked_words(self):
         regex = re.compile(".*?" + self.__symbols + ".*?")
@@ -49,11 +83,6 @@ class NltkLemmatizer():
             if regex.match(marked_word):
                 self.__marked_words_list.extend(self.__tokenize(marked_word))
             else:
-                self.__marked_words_list.append(marked_word)
-
-    def get_marked_words(self):
-        return self.__marked_words_list
+                self.__marked_words_list.append(marked_word)        
 
     __symbols = "[!\"#$%&'\\\\()*+,-./:;<=>?@[\\]^_`{|}~「」〔〕“”〈〉『』【】＆＊・（）＄＃＠。、？！｀＋￥％。、]"
-    __lemmatized_list = []
-    __marked_words_list = []
