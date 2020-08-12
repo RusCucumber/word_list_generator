@@ -1,7 +1,7 @@
 import React from 'react'
 import "./App.css"
 import {connect} from 'react-redux'
-import {saveResults, setError} from '../actions'
+import {saveResults, setError, saveWords} from '../actions'
 import {withRouter} from 'react-router'
 import {API_URL, API_HEADERS} from "../config"
 import axios from 'axios'
@@ -49,13 +49,14 @@ class MarkerField extends React.Component{
 		)
 	}
 	handleSubmit=e=>{
-
+		const wordList = this.state.sentence.split(" ")
+		const words = wordList.filter((word, id)=>this.state.index.includes(id))
 		this.setState({
 			loading:true
 		})
-
+		this.props.saveWords(words)
 		const {sentence, index} = this.state
-
+		//CHANGE
 		axios.post(API_URL+"/lemmatisation", {sentence, index}, API_HEADERS)
 		.then(r=>{
 			console.log("Post request response", r.data)
@@ -101,4 +102,4 @@ const mapStateToProps = (state) =>{
 }
 
 
-export default connect(mapStateToProps, {saveResults, setError})(MarkerField)
+export default connect(mapStateToProps, {saveResults, setError, saveWords})(MarkerField)
