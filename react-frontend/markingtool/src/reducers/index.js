@@ -10,7 +10,7 @@ const textReducer = (inputText="", action) =>{
 }
 
 
-const resultsReducer =(results =null, action)=>{
+const resultsReducer =(results=null, action)=>{
 	switch(action.type){
 		case 'SAVE_RESULTS':
 			return action.payload
@@ -19,7 +19,7 @@ const resultsReducer =(results =null, action)=>{
 	}
 }
 
-const errorsReducer =(errors =null, action)=>{
+const errorsReducer =(errors=null, action)=>{
 	switch(action.type){
 		case 'SET_ERROR':
 			return action.payload

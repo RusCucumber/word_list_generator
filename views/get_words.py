@@ -8,9 +8,7 @@ GET_WORDS = Blueprint("GET_WORDS", __name__, url_prefix = "/nltk")
 def get_words():
     response = {"result": "NG", "status": "", "word_list": []}
     json_keys = ["sentence", "index"]
-
     response["status"], sentence, index = check_parameter(request.get_json(), json_keys)
-
     if response["status"] == "OK":
         try:
             lem = NltkLemmatizer(sentence)
@@ -18,7 +16,8 @@ def get_words():
             response["word_list"].extend(lem.Lemmatize(marked_word = True))
             response["status"] = "Lemmatize success"
             response["result"] = "OK"
-        except:
+        except Exception as e:
+            print(e)
             response["status"] = "Lemmatize failed"
     
     return jsonify(response)

@@ -14,8 +14,7 @@ class Results extends React.Component{
 
 			this.props.history.push('/')
 		}else if(this.props.errors===null){
-			console.log(this.props.results)
-
+			console.log("Results in Resultsjs",this.props.results)
 			this.setState({
 				title:this.props.results.title,
 				body:this.props.results.body,
