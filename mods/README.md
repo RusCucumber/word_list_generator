@@ -76,13 +76,22 @@
                 1. marked_word = True / False
                     - 型: bool
                     - デフォルト: False
+                2. caribrate = True / False
+                    - 型: bool
+                    - デフォルト: False
             - 返り値
-                1. marked_word = False
+                1. marked_word = False, caribrate = False
                     - lemmatized_list
                         - 詳細: 文章中の単語全てをレンマ化したリスト
-                2. marked_word = True
+                2. marked_word = True, caribrate = False
                     - lemmatize_list
                         - 詳細: マークされた単語のみをレンマ化したリスト
+                3. marked_word = False, caribrate = True
+                    - lemmatized_list
+                        - 詳細: 文章中の単語全てをレンマ化し、較正したリスト
+                4. marked_word = True, caribrate = True
+                    - lemmatize_list
+                        - 詳細: マークされた単語のみをレンマ化し、較正したリスト
         3. get_marked_words
             - 返り値
                 - marked_words_list
