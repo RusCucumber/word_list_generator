@@ -56,7 +56,7 @@ class MarkerField extends React.Component{
 
 		const {sentence, index} = this.state
 
-		axios.post(API_URL+"/sendtext", {sentence, index}, API_HEADERS)
+		axios.post(API_URL+"sendtext", {sentence, index}, API_HEADERS)
 		.then(r=>{
 			console.log(r.data)
 			this.setState({
