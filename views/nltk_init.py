@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from mods.check_parameter import check_parameter
 from mods.nltk_download import nltk_download
 
-NLTK_INIT = Blueprint("NLTK_INIT", __name__, url_prefix="/apis")
+NLTK_INIT = Blueprint("NLTK_INIT", __name__, url_prefix="/api")
 
 @NLTK_INIT.route("/init", methods = ["POST"])
 def nltk_init():

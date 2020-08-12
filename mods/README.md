@@ -113,3 +113,25 @@
 4. **nltk_download.py**
     - NLTKに必要なファイルをダウンロードする。
     - 詳細は省略する。
+
+---
+
+5. **translate.py**
+    - 引数
+        1. word_list
+            - 型: リスト
+            - 詳細: 翻訳したい単語のリスト
+    - 返り値
+        1. translated_word_list
+            - 型: リスト
+            - 詳細:
+                - 各要素が[word, translated_word, index]の二重配列
+    - 使用例
+    ``` python
+    from mods.translate import translate
+
+    word_list = ["I", "can't"]
+    translated_word_list = translate(word_list)
+    print(translated_word_list) # [["I", "私", 0], ["can't", "できない", 1]]
+
+---

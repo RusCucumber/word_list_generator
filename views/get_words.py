@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template
 from mods.NltkLemmatizer import NltkLemmatizer
 from mods.check_parameter import check_parameter
+from mods.translate import translate
 
 GET_WORDS = Blueprint("GET_WORDS", __name__, url_prefix = "/api") 
 
@@ -13,11 +14,19 @@ def get_words():
         try:
             lem = NltkLemmatizer(sentence)
             lem.set_index(index)
-            response["word_list"].extend(lem.Lemmatize(marked_word = True, caribration = True))
+            word_list = lem.Lemmatize(marked_word = True, caribration = True)
             response["status"] = "Lemmatize success"
             response["result"] = "OK"
-        except Exception as e:
-            print(e)
+        except:
             response["status"] = "Lemmatize failed"
+        else:
+            try:
+                response["word_list"].extend(translate(word_list))
+                response["status"] += "\nTranslate success"
+                response["result"] = "OK"
+            except:
+                response["status"] += "\nTranslate failed"
+        
+        print(response["word_list"])
     
     return jsonify(response)
