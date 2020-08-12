@@ -1,7 +1,7 @@
 import React from 'react'
 import "./App.css"
 import {connect} from 'react-redux'
-import {inputText, saveResults} from '../actions'
+import {inputText, saveResults, setError} from '../actions'
 import {withRouter} from 'react-router'
 import {API_URL, API_HEADERS} from "../config"
 import axios from 'axios'
@@ -10,14 +10,14 @@ class MarkerField extends React.Component{
 	state ={
 		loading: false,
 		selected: [],
-		inputText
+		sentence:"",
 	}
 	componentDidMount(){
 		if(this.props.inputText ===""){
 			this.props.history.push('/')
 		}else{
 			this.setState({
-				inputText:this.props.inputText
+				sentence:this.props.inputText
 			})
 			console.log(this.props)
 		}
@@ -34,7 +34,7 @@ class MarkerField extends React.Component{
 		}
 	}
 	textRenderer = () =>{
-		const textArray = this.props.inputText.split(" ")
+		const textArray = this.state.sentence.split(" ")
 		return(
 			textArray.map((word,index)=>{
 				return(
@@ -49,22 +49,23 @@ class MarkerField extends React.Component{
 		)
 	}
 	handleSubmit=e=>{
-		console.log(this.state.selected)
+
 		this.setState({
 			loading:true
 		})
-		axios.post(API_URL, {
-      title: 'foo',
-      body: 'bar',
-      userId: 1
-    }, API_HEADERS)
+
+		const {sentence, index} = this.state
+
+		axios.post(API_URL+"sendtext", {sentence, index}, API_HEADERS)
 		.then(r=>{
 			console.log(r.data)
 			this.setState({
 				loading:false
 			})
 			this.props.saveResults(r.data)
-		}, error=>{console.log(error)})
+		}, e=>{
+			this.props.setError(e.response)
+		})
 		.then(()=>{
 			this.props.history.push('/results')
 		})
@@ -74,23 +75,24 @@ class MarkerField extends React.Component{
 		this.props.history.push('/')
 	}
 	render(){
+		console.log(this.state)
 		return(
 			this.state.loading? 
-			<ScaleLoader 
-				size={150}
-     	 		color={"#F45B69"}
-      			loading={this.state.loading}
-          	/> 
-          	:
-			<div className="ui markerField" >
-				<div className="submitMarker">
-					<div className="backBtnContainer"><span className="goBackBtn" onClick={this.handleBack}>🡄 BACK</span></div>
-					<div className="submitBtnContainer"><span className="submitMarkerText" onClick={this.handleSubmit}>GO 🡆</span></div>
+				<ScaleLoader 
+					size={150}
+	     	 		color={"#F45B69"}
+	      			loading={this.state.loading}
+	          	/> 
+      		:
+				<div className="ui markerField" >
+					<div className="submitMarker">
+						<div className="backBtnContainer"><span className="goBackBtn" onClick={this.handleBack}>🡄 BACK</span></div>
+						<div className="submitBtnContainer"><span className="submitMarkerText" onClick={this.handleSubmit}>GO 🡆</span></div>
+					</div>
+					<div className="ui markerFieldText">
+					{this.textRenderer()}
+					</div>
 				</div>
-				<div className="ui markerFieldText">
-				{this.textRenderer()}
-				</div>
-			</div>
 		)
 	}
 }
@@ -99,4 +101,4 @@ const mapStateToProps = (state) =>{
 }
 
 
-export default connect(mapStateToProps, {saveResults})(MarkerField)
+export default connect(mapStateToProps, {saveResults, setError})(MarkerField)

@@ -13,3 +13,11 @@ export const saveResults = result =>{
 		payload:result
 	}
 }
+
+export const setError = error =>{
+	console.log(error)
+	return{
+		type: 'SET_ERROR',
+		payload:error,
+	}
+}
