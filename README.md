@@ -1,9 +1,10 @@
 # Word List Generator
 
-## ディレクトリ構成（仮）
+## ディレクトリ構成
 
         .- config              //設定ファイルディレクトリ
         |- mods                // モジュールディレクトリ
+        |- react-fronted       // フロントエンド開発環境
         |- static
         |    |- css             // cssディレクトリ
         |    |- js              // JavaScriptディレクトリ
