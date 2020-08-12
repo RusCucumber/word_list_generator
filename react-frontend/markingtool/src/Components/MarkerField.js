@@ -1,7 +1,7 @@
 import React from 'react'
 import "./App.css"
 import {connect} from 'react-redux'
-import {inputText, saveResults, setError} from '../actions'
+import {saveResults, setError, saveWords} from '../actions'
 import {withRouter} from 'react-router'
 import {API_URL, API_HEADERS} from "../config"
 import axios from 'axios'
@@ -9,7 +9,7 @@ import ScaleLoader from "react-spinners/ScaleLoader"
 class MarkerField extends React.Component{
 	state ={
 		loading: false,
-		selected: [],
+		index: [],
 		sentence:"",
 	}
 	componentDidMount(){
@@ -22,48 +22,50 @@ class MarkerField extends React.Component{
 			console.log(this.props)
 		}
 	}
-	selectWord =(word, index)=>{
-		if(this.state.selected.includes(index)){
+	selectWord =(word, id)=>{
+		if(this.state.index.includes(id)){
 			this.setState({
-				selected: this.state.selected.filter(num => num !== index)
+				index: this.state.index.filter(num => num !== id)
 			})
 		}else{
 			this.setState({
-				selected: [...this.state.selected, index]
+				index: [...this.state.index, id]
 			})
 		}
 	}
 	textRenderer = () =>{
 		const textArray = this.state.sentence.split(" ")
 		return(
-			textArray.map((word,index)=>{
+			textArray.map((word,id)=>{
 				return(
 					<span 
 						className="wordWrapper"
-						key={index} 
-						onClick={()=>this.selectWord(word,index)}
-						style={this.state.selected.includes(index) ? {"background":"#028090", "color": "#E4FDE1"}:{"background": "none"}}
+						key={id} 
+						onClick={()=>this.selectWord(word,id)}
+						style={this.state.index.includes(id) ? {"background":"#028090", "color": "#E4FDE1"}:{"background": "none"}}
 					>{word} </span>
 				)
 			})
 		)
 	}
 	handleSubmit=e=>{
-
+		const wordList = this.state.sentence.split(" ")
+		const words = wordList.filter((word, id)=>this.state.index.includes(id))
 		this.setState({
 			loading:true
 		})
-
+		this.props.saveWords(words)
 		const {sentence, index} = this.state
-
-		axios.post(API_URL+"sendtext", {sentence, index}, API_HEADERS)
+		//CHANGE
+		axios.post(API_URL+"/lemmatisation", {sentence, index}, API_HEADERS)
 		.then(r=>{
-			console.log(r.data)
+			console.log("Post request response", r.data)
 			this.setState({
 				loading:false
 			})
 			this.props.saveResults(r.data)
 		}, e=>{
+			console.log("Error")
 			this.props.setError(e.response)
 		})
 		.then(()=>{
@@ -75,7 +77,6 @@ class MarkerField extends React.Component{
 		this.props.history.push('/')
 	}
 	render(){
-		console.log(this.state)
 		return(
 			this.state.loading? 
 				<ScaleLoader 
@@ -101,4 +102,4 @@ const mapStateToProps = (state) =>{
 }
 
 
-export default connect(mapStateToProps, {saveResults, setError})(MarkerField)
+export default connect(mapStateToProps, {saveResults, setError, saveWords})(MarkerField)

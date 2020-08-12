@@ -21,3 +21,17 @@ export const setError = error =>{
 		payload:error,
 	}
 }
+
+export const saveWords = words =>{
+
+	return{
+		type: "SAVE_WORDS",
+		payload:words
+	}
+}
+export const saveCSV = csvElements =>{
+	return{
+		type:"SAVE_CSV",
+		payload:csvElements
+	}
+}

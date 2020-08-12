@@ -8,13 +8,10 @@ NLTK_INIT = Blueprint("NLTK_INIT", __name__, url_prefix="/api")
 def nltk_init():
     if request.method == "POST":
         response = {"result": "NG", "status": ""}
-        
         response["status"], command = check_parameter(request.get_json(), ["command"])
-
         if response["status"] == "OK":
             if command == "download":
                 response["result"], response["status"] = nltk_download()
             else:
                 response["status"] = "invalid value"
-
         return response

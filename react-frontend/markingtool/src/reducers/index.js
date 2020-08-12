@@ -8,9 +8,16 @@ const textReducer = (inputText="", action) =>{
 			return inputText
 	}
 }
+const wordsReducer=(inputWords=[], action)=>{
+	switch(action.type){
+		case 'SAVE_WORDS':
+			return action.payload
+		default:
+			return inputWords
+	}
+}
 
-
-const resultsReducer =(results =null, action)=>{
+const resultsReducer =(results=null, action)=>{
 	switch(action.type){
 		case 'SAVE_RESULTS':
 			return action.payload
@@ -19,7 +26,7 @@ const resultsReducer =(results =null, action)=>{
 	}
 }
 
-const errorsReducer =(errors =null, action)=>{
+const errorsReducer =(errors=null, action)=>{
 	switch(action.type){
 		case 'SET_ERROR':
 			return action.payload
@@ -28,10 +35,21 @@ const errorsReducer =(errors =null, action)=>{
 	}
 }
 
+const csvReducer = (csvElements=[], action)=>{
+	console.log(action)
+	switch(action.type){
+		case 'SAVE_CSV':
+			return action.payload
+		default:
+			return csvElements
+	}
+}
 //creates Store states? 
 //For example, state.songs = [list of song objects]
 export default combineReducers({
 	inputText: textReducer,
 	results: resultsReducer,
-	errors: errorsReducer
+	errors: errorsReducer,
+	words: wordsReducer,
+	csvElements: csvReducer
 })

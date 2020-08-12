@@ -49,7 +49,7 @@
 
 .description{
 	display: grid;
-	justify-content: center;
+	justify-items: center;
 	text-align: center;
 	padding-bottom: 2rem;
 }
@@ -67,7 +67,7 @@
 	color: transparent;
 	background-color: none;
 	height: 4rem;
-	justify-content: center;
+	justify-items: center;
 }
 .inputTextBox{
 	border-radius: 8px;
@@ -118,7 +118,7 @@
 	text-align: right;
 }
 .submitMarkerText{
-	font-size: 0.75rem;
+	font-size: 1rem;
 	padding-left: 12pt;
 	padding-right: 12pt;
 	font-family: "arial";
@@ -136,7 +136,7 @@
 	text-align: left;
 }
 .goBackBtn{
-	font-size: 0.75rem;
+	font-size: 1rem;
 	padding-left: 12pt;
 	padding-right: 12pt;
 	font-family: "arial";
@@ -169,6 +169,152 @@
             user-select: none; /* Non-prefixed version, currently
                               supported by Chrome, Edge, Opera and Firefox */
 }
+.lemmaContainer{
+	display: grid;
+	justify-items:center;
+	align-items: center;
+	grid-template-columns: 1fr 1fr;
+	grid-row-gap: 1rem;
+	border-radius: 8px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
+	padding: 2vw;
+	padding-top: 4vw;
+	padding-bottom: 4vw;
+
+}
+.lemmaListWrapper{
+	display: grid;
+	grid-template-rows:1fr auto;
+	transition: 0.2s;
+	grid-column: 1/3;
+	max-height: 80vh;
+	border-top: 1px black lightgrey;
+}
+.lemmaListWrap{
+	overflow-y: scroll;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+  color: grey;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.lemmaList{
+	padding: 1rem;
+	border-bottom: solid 1px grey;
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr;
+	transition: 0.2s;
+}
+.wordResult{
+	grid-column: 1;
+	font-family: "arial";
+}
+.lemmaBtn{
+	border: solid 1px;
+	border-radius: 8px;
+	padding: 0.25rem;
+	width: 3rem;
+}
+.lemmaBtn:hover{
+	cursor: pointer;
+	transform: scale(1.1);
+	transition: 0.2s;
+}
+.delete{
+	grid-column: 3;
+	color: red;
+	font-family: "arial";
+	font-size:0.8rem;
+}
+.finalSubmitBtnContainer{
+	grid-column: 2;
+	justify-self:end;
+	text-align: right;
+}
+.finalSubmitBtn{
+	font-size: 1rem;
+	padding-left: 12pt;
+	padding-right: 12pt;
+	font-family: "arial";
+	border-bottom: 0.05rem #588c80 solid;
+	color:#588c80;
+	transition: 0.2s;
+	align-self: left;
+}
+.finalSubmitBtn:hover{
+	cursor: pointer;
+	color: #48cfaf;
+	border-bottom: 0.06rem #48cfaf solid;
+}
+
+
+.finalOptionsContainer{
+	width: 60vw;
+	height: 80vh;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-items: center;
+	align-items: center;
+}
+.quizletContainer{
+	grid-column: 2;
+	justify-items: center;
+	align-items: center;
+}
+.csvContainer{
+	grid-column: 1;
+	justify-items: center;
+	align-items: center;
+}
+.csvicon{
+	grid-column: 1;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	height: 9rem;
+	width: 6rem;
+	text-decoration: none !important;
+	border-radius: 1rem;
+	border: solid 4px #114B5F;
+	background-color: #E4FDE1;
+}
+.csvicontextcontainer{
+	grid-column: 3;
+	grid-row: 3;
+}
+.csvicontext{
+	margin-left: 3rem;
+	font-weight: bolder;
+	font-size: 2rem;
+	font-family: "arial";
+	color: #028090;
+	text-decoration: none !important;
+	text-underline-position: none;
+	border-bottom: solid 4px black;
+	background-color: #E4FDE1;
+	border-radius: 0.5rem;
+	border: solid 4px #114B5F;
+	padding: 0.1rem;
+	z-index: 1;
+}
+
 
 @media only screen and (max-width: 600px){
 	.markerField{
@@ -183,6 +329,5 @@
 	}
 	.goBackBtn{
 		font-size: 0.6rem;
-		
 	}
 }
