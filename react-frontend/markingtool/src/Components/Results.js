@@ -41,8 +41,7 @@ class Results extends React.Component{
 		if(this.props.results===null && this.props.errors===null){
 			this.props.history.push('/')
 		}else if(this.props.errors===null){
-			console.log("Results in Resultsjs",this.props.results)
-			console.log("Words selected:", this.props.words)
+			console.log("Words selected in frontend:", this.props.words)
 			this.setState({
 				//CHANGE
 				// results: this.fakeResults.map((words,id)=>{
@@ -70,7 +69,6 @@ class Results extends React.Component{
 		}
 	}
 	handleSubmit=()=>{
-		console.log(this.state.results.length)
 		const w = this.state.results.filter(word=>!this.state.dontShow.includes(word[2])||word[0].length===0||word[1].length===0)
 		console.log("PRECSV",w)
 		this.setState({

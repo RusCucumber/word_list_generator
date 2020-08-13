@@ -36,7 +36,6 @@ const errorsReducer =(errors=null, action)=>{
 }
 
 const csvReducer = (csvElements=[], action)=>{
-	console.log(action)
 	switch(action.type){
 		case 'SAVE_CSV':
 			return action.payload
