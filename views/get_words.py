@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, current_app
 from mods.NltkLemmatizer import NltkLemmatizer
 from mods.check_parameter import check_parameter
 from mods.translate import translate
@@ -8,8 +8,9 @@ GET_WORDS = Blueprint("GET_WORDS", __name__, url_prefix = "/api")
 @GET_WORDS.route("/lemmatisation", methods = ["POST"])
 def get_words():
     response = {"result": "NG", "status": "", "word_list": []}
-    json_keys = ["sentence", "index"]
-    response["status"], sentence, index = check_parameter(request.get_json(), json_keys)
+    json_keys = ["sentence", "index", "selectedWords"]
+    logger = current_app.logger
+    response["status"], sentence, index, selectedWords = check_parameter(request.get_json(), json_keys)
     if response["status"] == "OK":
         try:
             lem = NltkLemmatizer(sentence)
@@ -17,6 +18,9 @@ def get_words():
             word_list = lem.Lemmatize(marked_word = True, caribration = True)
             response["status"] = "Lemmatize success"
             response["result"] = "OK"
+
+            logger.debug(lem.get_marked_words())
+            logger.debug(selectedWords)
         except:
             response["status"] = "Lemmatize failed"
         else:
@@ -25,8 +29,6 @@ def get_words():
                 response["status"] += "\nTranslate success"
                 response["result"] = "OK"
             except:
-                response["status"] += "\nTranslate failed"
-        
-        print(response["word_list"])
+                response["status"] += "\nTranslate failed"     
     
     return jsonify(response)
