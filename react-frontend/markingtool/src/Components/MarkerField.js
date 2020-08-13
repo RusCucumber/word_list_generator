@@ -56,9 +56,9 @@ class MarkerField extends React.Component{
 			})
 			this.props.saveWords(words)
 			const {sentence, index} = this.state
-		//CHANGE
-			console.log("SENDING DATA: ", {sentence, index})
-			axios.post(API_URL+"/lemmatisation", {sentence, index}, API_HEADERS)
+			index.sort((a,b) => a-b)
+			console.log("SENDING DATA: ", {sentence, index, selectedWords:words})
+			axios.post(API_URL+"/lemmatisation", {sentence, index, selectedWords:words}, API_HEADERS)
 			.then(r=>{
 				console.log("Post request response", r.data)
 				this.setState({
