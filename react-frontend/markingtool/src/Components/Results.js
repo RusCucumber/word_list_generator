@@ -133,7 +133,7 @@ class Results extends React.Component{
 						className="lemmaBtn delete"
 						name="delete" 
 						onClick={(e)=>this.handleClick(e,{id:pair[2]})}
-						style={this.state.dontShow.includes(pair[2])? {color:"black"}:{color:"red"}}
+						style={this.state.dontShow.includes(pair[2])? {color:"black"}:{color:"#f56f5f"}}
 						>
 							{this.state.dontShow.includes(pair[2])? "UNDO":"DELETE"}
 						</div>
