@@ -35,6 +35,7 @@ class Results extends React.Component{
 		errorSet:false,
 		dontShow: [],
 		loading: false,
+		invalid:false,
 	}
 	componentDidMount(){
 		if(this.props.results===null && this.props.errors===null){
@@ -44,9 +45,10 @@ class Results extends React.Component{
 			console.log("Words selected:", this.props.words)
 			this.setState({
 				//CHANGE
-				results: this.fakeResults.map((words,id)=>{
-					return [...words,id]
-				})
+				// results: this.fakeResults.map((words,id)=>{
+				// 	return [...words,id]
+				// })
+				results: this.props.results.word_list,	
 			})
 		}else{
 			console.log(this.props.errors)
@@ -68,7 +70,9 @@ class Results extends React.Component{
 		}
 	}
 	handleSubmit=()=>{
-		const w = this.state.results.filter(word=>!this.state.dontShow.includes(word[2]))
+		console.log(this.state.results.length)
+		const w = this.state.results.filter(word=>!this.state.dontShow.includes(word[2])||word[0].length===0||word[1].length===0)
+		console.log("PRECSV",w)
 		this.setState({
 			loading:true
 		})
@@ -81,6 +85,18 @@ class Results extends React.Component{
 		})
 		this.props.history.push('/finaloptions')
 	}
+	handleChange=(outerIndex, innerIndex,e)=>{
+		this.setState({
+			fakeResults : this.state.results.map((pair, id)=>{
+				if(id===outerIndex){
+					pair[innerIndex] = e.target.value
+					return pair
+				}else{
+					return pair
+				}
+			})
+		})
+	}
 	renderError=()=>{
 		//CHANGE
 		return(
@@ -92,17 +108,28 @@ class Results extends React.Component{
 	}
 	renderResults=()=>{
 		return(
-			this.state.results.map((pair)=>{
+			this.state.results.map((pair,id)=>{
 				return(
 					<div 
 					className="lemmaList" key={pair[2]} 
-					style={this.state.dontShow.includes(pair[2])?{backgroundColor:"#f5f5f5"}:{display:"grid"}}
+					style={this.state.dontShow.includes(pair[2])||pair[0].length===0||pair[1].length===0?{backgroundColor:"#f5f5f5"}:{display:"grid"}}
 					>
 						<div 
 						className="wordResult"
-						style={this.state.dontShow.includes(pair[2])?{textDecoration:"line-through"}:{textDecoration:"none"}}
+						style={(this.state.dontShow.includes(pair[2])||pair[0].length===0||pair[1].length===0)?{textDecoration:"line-through"}:{textDecoration:"none"}}
 						>
-							{pair[0]} : {pair[1]}
+							<input 
+							className="txtF originalText" 
+							type="text"
+							value={this.state.results[id][0]}
+							onChange={(e)=>this.handleChange(id,0,e)}
+							/> 
+							<input 
+							className="txtF translatedText" 
+							type="text"
+							value={this.state.results[id][1]}
+							onChange={(e)=>this.handleChange(id,1,e)}
+							/>
 						</div>   
 						<div
 						className="lemmaBtn delete"

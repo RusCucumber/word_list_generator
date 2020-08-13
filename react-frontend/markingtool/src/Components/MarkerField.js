@@ -49,28 +49,31 @@ class MarkerField extends React.Component{
 		)
 	}
 	handleSubmit=e=>{
-		const wordList = this.state.sentence.split(" ")
-		const words = wordList.filter((word, id)=>this.state.index.includes(id))
-		this.setState({
-			loading:true
-		})
-		this.props.saveWords(words)
-		const {sentence, index} = this.state
-		//CHANGE
-		axios.post(API_URL+"/lemmatisation", {sentence, index}, API_HEADERS)
-		.then(r=>{
-			console.log("Post request response", r.data)
+		if(this.state.index.length>0){
+			const wordList = this.state.sentence.split(" ")
+			const words = wordList.filter((word, id)=>this.state.index.includes(id))
 			this.setState({
-				loading:false
+				loading:true
 			})
-			this.props.saveResults(r.data)
-		}, e=>{
-			console.log("Error")
-			this.props.setError(e.response)
-		})
-		.then(()=>{
-			this.props.history.push('/results')
-		})
+			this.props.saveWords(words)
+			const {sentence, index} = this.state
+		//CHANGE
+			axios.post(API_URL+"/lemmatisation", {sentence, index}, API_HEADERS)
+			.then(r=>{
+				console.log("Post request response", r.data)
+				this.setState({
+					loading:false
+				})
+				this.props.saveResults(r.data)
+				}, e=>{
+				console.log("Error")
+				this.props.setError(e.response)
+				}
+			)
+			.then(()=>{
+				this.props.history.push('/results')
+			})
+		}
 	}
 
 	handleBack=()=>{
