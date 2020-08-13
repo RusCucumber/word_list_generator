@@ -344,7 +344,7 @@
 
 .lemmaBtn{
 	grid-column: 2;
-	border: solid 2px;
+	border: solid 1px;
 	border-radius: 8px;
 	padding: 0.25rem;
 	width: 3.4rem;
@@ -357,7 +357,7 @@
 }
 .delete{
 	grid-column: 2;
-	color: #F45B69;
+	color: #ffcdc7;
 	font-family: "arial";
 	font-size:0.8rem;
 }
