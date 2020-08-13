@@ -7,7 +7,7 @@ NTLKに必要なファイルをダウンロードする。
 
 - URI: http://.../api/init
 - method: POST
-- header: "Application/Json
+- header: "Application/Json"
 - json: {"command": "download"}
 
 **今後の修正点**
@@ -21,5 +21,15 @@ NTLKに必要なファイルをダウンロードする。
 
 - URI: http://.../api/lemmatisation
 - method: POST
-- header: "Application/Json
+- header: "Application/Json"
 - json: {"sentece": 英文章, "index": レンマ化したい単語のインデックス}
+
+---
+### Quizlet単語帳作成API
+
+Quizletの単語帳を作成し、URLを返す
+
+- URI: http://.../api/quizlet
+- method: POST
+- header: "Application/Json"
+- json: {"username": ユーザーネーム, "password": パスワード, "words": 単語帳にしたい対訳リスト}
