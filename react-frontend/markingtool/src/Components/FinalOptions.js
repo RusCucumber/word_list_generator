@@ -5,7 +5,7 @@ import {CSVLink, CSVDownload} from "react-csv"
 import {Link} from "react-router-dom"
 import ScaleLoader from "react-spinners/ScaleLoader"
 import axios from 'axios'
-const debug = true
+const debug = false
 
 
 class FinalOptions extends React.Component{
@@ -36,12 +36,11 @@ class FinalOptions extends React.Component{
 	}
 	handleSubmit =e=>{
 		e.preventDefault()
-		console.log(this.state.username)
-		console.log(this.state.password)
 		const {password, username, csvData} = this.state
+		console.log("POSTING TO /quizlet",{username, password, words:csvData})
 		this.setState({loading:true})
 		if(!debug){
-			axios.post(API_URL+"quizlet", {username, password, csvData}, API_HEADERS)
+			axios.post(API_URL+"/quizlet", {username, password, words:csvData}, API_HEADERS)
 			.then(r=>{
 				console.log(r.data)
 				this.setState({
@@ -59,34 +58,32 @@ class FinalOptions extends React.Component{
 	}
 	renderForm =()=>{
 		return(
-			this.state.loading?
-				<div className="quizletLoad">
-					<ScaleLoader 
-					size={200}
-	     	 		color={"#F45B69"}
-	      			loading={this.state.loading}
-	      			/>
-	      		</div>
-	          :
+			
 				<form action="submit" onSubmit={this.handleSubmit}>
-					<div className="quizletLogo">
-						<div className="boxOne"/>
-						<div className="boxTwo">+</div>
-						<div className="quizletText">Quizlet</div>
-					</div>
-	          		<div className="quizletFormContainer">
-		          		<div>
-							<label className="quizletFormText" for="username">Username:</label>
-							<input className="quizletFormTextBox" type="text" value={this.state.username} name="username" onChange={this.handleChange}/>
-						</div>
-					
-						<div>
-							<label className="quizletFormText" for="pass">Password:</label>
-							<input className="quizletFormTextBox" type="password" required value={this.state.password} name="password" onChange={this.handleChange}/>
-						</div>
-					
-						<input className="quizletFormSubmit" type="submit" value="Sign in"/>
-					</div>
+					{
+						this.state.loading?
+							<div className="quizletLoad">
+								<ScaleLoader 
+								size={200}
+				     	 		color={"#F45B69"}
+				      			loading={this.state.loading}
+				      			/>
+				      		</div>
+	          			:
+			          		<div className="quizletFormContainer">
+				          		<div>
+									<label className="quizletFormText" for="username">Username:</label>
+									<input className="quizletFormTextBox" type="text" value={this.state.username} name="username" onChange={this.handleChange} autoComplete="off"/>
+								</div>
+							
+								<div>
+									<label className="quizletFormText" for="pass">Password:</label>
+									<input className="quizletFormTextBox" type="password" required value={this.state.password} name="password" onChange={this.handleChange} autoComplete="off"/>
+								</div>
+							
+								<input className="quizletFormSubmit" type="submit" value="Sign in"/>
+							</div>
+					}
 				</form>
 		)
 	}
@@ -120,6 +117,11 @@ class FinalOptions extends React.Component{
 
 					</CSVLink>
 					<div className="quizletContainer">
+						<div className="quizletLogo">
+							<div className="boxOne"/>
+							<div className="boxTwo">+</div>
+							<div className="quizletText">Quizlet</div>
+						</div>
 						{
 							this.state.quizletURL!==""? 
 								this.renderURL() 

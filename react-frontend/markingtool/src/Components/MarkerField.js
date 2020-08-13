@@ -19,7 +19,6 @@ class MarkerField extends React.Component{
 			this.setState({
 				sentence:this.props.inputText
 			})
-			console.log(this.props)
 		}
 	}
 	selectWord =(word, id)=>{
@@ -58,6 +57,7 @@ class MarkerField extends React.Component{
 			this.props.saveWords(words)
 			const {sentence, index} = this.state
 		//CHANGE
+			console.log("SENDING DATA: ", {sentence, index})
 			axios.post(API_URL+"/lemmatisation", {sentence, index}, API_HEADERS)
 			.then(r=>{
 				console.log("Post request response", r.data)
@@ -93,9 +93,11 @@ class MarkerField extends React.Component{
 						<div className="backBtnContainer"><span className="goBackBtn" onClick={this.handleBack}>🡄 BACK</span></div>
 						<div className="submitBtnContainer"><span className="submitMarkerText" onClick={this.handleSubmit}>GO 🡆</span></div>
 					</div>
-					<div className="ui markerFieldText">
-					{this.textRenderer()}
+					
+					<div className="markerFieldText">
+						{this.textRenderer()}
 					</div>
+				
 				</div>
 		)
 	}
