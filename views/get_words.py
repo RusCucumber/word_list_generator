@@ -19,8 +19,8 @@ def get_words():
             response["status"] = "Lemmatize success"
             response["result"] = "OK"
 
-            logger.debug(lem.get_marked_words())
             logger.debug(selectedWords)
+            logger.debug(lem.get_marked_words())
         except:
             response["status"] = "Lemmatize failed"
         else:
