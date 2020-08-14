@@ -16,6 +16,7 @@ class NltkLemmatizer():
 
     def Lemmatize(self, marked_word = False, caribration = False):
         tagged_sentence = self.__tag(self.__tokenize(self.__sentence))
+        i = 0
 
         for word, tag in tagged_sentence:
             if tag.startswith("NN"):
@@ -26,19 +27,20 @@ class NltkLemmatizer():
                 pos = "a"
 
             if marked_word:
-                if word == self.__marked_words_list[0]:
+                if word.lower() == self.__marked_words_list[i]:
+                    i += 1
                     self.__lemmatize(word, pos, caribration)
-                    self.__marked_words_list.pop(0)
+                    #self.__marked_words_list.pop(0)
 
-                    if len(self.__marked_words_list) == 0:
+                    if len(self.__marked_words_list) == i:
                         break
             else:
-                self.__lemmatize(word, pos, caribration)
+                tuple(self.__lemmatize(word, pos, caribration))
                 
-        return self.__lemmatized_list
+        return tuple(self.__lemmatized_list)
 
     def get_marked_words(self):
-        return self.__marked_words_list
+        return tuple(self.__marked_words_list)
 
     def __tokenize(self, sentence):
         return word_tokenize(sentence)
@@ -76,13 +78,16 @@ class NltkLemmatizer():
 
     def __find_marked_words(self):
         regex = re.compile(".*?" + self.__symbols + ".*?")
+        marked_words_list = []
 
         all_words = self.__sentence.split(" ")
         for i in self.__index:
-            marked_word = all_words[int(i)]
+            marked_word = all_words[int(i)].lower()
             if regex.match(marked_word):
-                self.__marked_words_list.extend(self.__tokenize(marked_word))
+                marked_words_list.extend(self.__tokenize(marked_word))
             else:
-                self.__marked_words_list.append(marked_word)        
+                marked_words_list.append(marked_word)
+
+        self.__marked_words_list = (sorted(set(marked_words_list), key = marked_words_list.index))
 
     __symbols = "[!\"#$%&'\\\\()*+,-./:;<=>?@[\\]^_`{|}~「」〔〕“”〈〉『』【】＆＊・（）＄＃＠。、？！｀＋￥％。、]"
