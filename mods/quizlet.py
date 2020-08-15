@@ -3,6 +3,7 @@ import time
 import datetime
 import chromedriver_binary
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 class Quizlet:
@@ -10,12 +11,10 @@ class Quizlet:
     def __init__(self, words_given):
         self.words_given = words_given
         self.words = []
-        options = Options()
-        options.add_argument('--headless')
-        self.__browser = webdriver.Chrome(options = options)#, executable_path="C:/Users/ShizukiKubota/Desktop/MyPandas/chromedriver.exe")
-        # pathも変える必要あり
-
-
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--window-size=1024, 2048')
+        #chrome_options.add_argument('--headless')
+        self.__browser = webdriver.Chrome(chrome_options=chrome_options)
 
     def degree_downer(self):
         for i in range(len(self.words_given)):
@@ -24,6 +23,7 @@ class Quizlet:
 
     def create_new(self, USER, PSWD):
 
+        #self.__browser.set_window_size(1000,750)
         #作成ページへ遷移
         url_create = "https://quizlet.com/create-set"
         self.__browser.get(url_create)
@@ -32,8 +32,11 @@ class Quizlet:
         #ログインボタン押す
         browser_from = self.__browser.find_element_by_css_selector("body > div.UIModal.UIModal-container.is-white.is-open > div > div.UIModalBody > form > div.SignupWithEmailForm-belowForm > div.UIDiv.SignupWithEmailForm-alreadyHaveAccount > span > span > button > span")
         time.sleep(3)
+        print("button found")
         browser_from.click()
         time.sleep(3)
+        print("clicked")
+
 
         #ユーザー名パスワード入力
         element = self.__browser.find_element_by_id("username")
@@ -43,14 +46,13 @@ class Quizlet:
         element.clear()
         element.send_keys(PSWD)
 
-        del USER
-        del PSWD
-
         #ログインボタンクリック
         browser_from = self.__browser.find_element_by_class_name("UILoadingButton")
         time.sleep(3)
         browser_from.click()
         time.sleep(3)
+
+
 
         #インポート画面出す
         try:
@@ -139,3 +141,11 @@ class Quizlet:
         cur_url = cur_url[0:-4]
 
         return cur_url
+
+
+    def finish(self):
+        self.__browser.close()
+        self.__browser.quit()
+
+if __name__ == "__main__":
+    pass

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app
 from mods.check_parameter import check_parameter
-from mods.DB import ReadWriteDB
+from application import conn
+import traceback
 
 GET_URL_BY_ID = Blueprint("GET_URL_BY_ID", __name__, url_prefix="/api")
 
@@ -15,8 +16,7 @@ def get_url_by_id():
 
         if response["status"] == "OK":
             try:
-                db = ReadWriteDB()
-                url = db.ReadByID(quiz_id)["url"]
+                url = conn.ReadByID(quiz_id)["url"]
                 if url != "":
                     response["result"] = "OK"
                     response["url"] = url
@@ -26,5 +26,6 @@ def get_url_by_id():
             except:
                 logger.debug("Async process is not finished")
                 response["status"] = "DB error"
+                print(traceback.format_exc())
 
         return jsonify(response)
