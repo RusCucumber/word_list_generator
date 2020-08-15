@@ -72,7 +72,7 @@ class FinalOptions extends React.Component{
 				console.log("処理中")
 			}
 		},e=>{
-			e.response.status===404?clearInterval(this.state.scheduleID):console.log(e.response)
+			clearInterval(this.state.scheduleID)
 			this.setState({
 				loading: false,
 				requestingQuizlet:false,
