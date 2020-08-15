@@ -77,7 +77,6 @@ class FinalOptions extends React.Component{
 					this.setState({
 						loading: false,
 						requestingQuizlet:false,
-						scheduleID:"",
 						quizletError:true,
 					})
 				}else if(r.data.url!==""){
