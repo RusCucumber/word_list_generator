@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, current_app
 from mods.check_parameter import check_parameter
+from mods.DB import ReadWriteDB
 
 GET_URL_BY_ID = Blueprint("GET_URL_BY_ID", __name__, url_prefix="/api")
 
@@ -14,13 +15,15 @@ def get_url_by_id():
 
         if response["status"] == "OK":
             try:
-                # デバッグように、OK、NGをランダムに返す
-                import random
-                if random.randint(0, 1) == 0:
-                # URLの取得処理
+                db = ReadWriteDB()
+                url = db.ReadByID(quiz_id)["url"]
+                if url != "":
                     response["result"] = "OK"
-                response["url"] = "https://quizlet.com/"
+                    response["url"] = url
+                else:
+                    response["status"] = "Failed to create Quizlet word list"
             except:
                 logger.debug("Async process are not finished")
+                response["status"] = "DB error"
 
         return jsonify(response)
