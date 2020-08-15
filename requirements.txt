@@ -17,6 +17,7 @@ httpcore==0.9.1
 httpx==0.13.3
 hyperframe==5.2.0
 idna==2.10
+invoke==1.4.1
 itsdangerous==1.1.0
 Jinja2==2.11.2
 joblib==0.16.0

@@ -33,6 +33,7 @@ celery = "*"
 redis = "*"
 dataset = "*"
 psycopg2-binary = "*"
+invoke = "*"
 
 [requires]
 python_version = "3.8"
