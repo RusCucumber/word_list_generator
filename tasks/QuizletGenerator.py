@@ -1,12 +1,12 @@
 from application import worker
-#from mods.quizlet_new import Quizlet
-from mods.quizlet_new_new import Quizlet
+#from mods.quizlet_new_new import Quizlet
+from mods.quizlet_3 import Quizlet
 from mods.DB import ReadWriteDB
 import traceback
 
 @worker.task()
 def quizlet_generate(username, password, words, quiz_id):
-    max_trial = range(10)
+    max_trial = range(1)
     url = ""
     for i in max_trial:
         if url != "":
@@ -15,9 +15,8 @@ def quizlet_generate(username, password, words, quiz_id):
         try:
             q = Quizlet(words)
             q.degree_downer()
-            q.create_new(username, password)
-            q.set_language()
-            url = q.get_url()
+            q.open_to_login(username, password)
+            url = q.entire_action()
             print(url)
         except:
             print("Trial: {} time(s)".format(i))

@@ -21,9 +21,10 @@ def get_url_by_id():
                     response["result"] = "OK"
                     response["url"] = url
                 else:
+                    response["result"] = "OK"
                     response["status"] = "Failed to create Quizlet word list"
             except:
-                logger.debug("Async process are not finished")
+                logger.debug("Async process is not finished")
                 response["status"] = "DB error"
 
         return jsonify(response)
