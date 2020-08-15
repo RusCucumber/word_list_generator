@@ -101,6 +101,9 @@ class FinalOptions extends React.Component{
 			})
 		})
 	}
+	handleClick =()=>{
+		this.props.history.push('/memcards')
+	}
 	renderForm =()=>{
 		return(
 			
@@ -152,8 +155,15 @@ class FinalOptions extends React.Component{
 							</p>
 						</div>
 						<div className="csvDownload">Download</div>
-
 					</CSVLink>
+
+					<div className="memCards" onClick={this.handleClick}>
+						<div className="memCardLogo">
+							<div className="memBoxOne"/>
+							<div className="memBoxTwo">この場で</div>
+						</div>
+					</div>
+
 					<div className="quizletContainer">
 						<div className="quizletLogo">
 							<div className="boxOne"/>
@@ -169,6 +179,19 @@ class FinalOptions extends React.Component{
 					</div>
 					<Link to="/" className="homeLink">Home</Link>
 				</div>
+			
+
+
+
+
+
+
+
+
+
+
+
+
 			:
 				<div>
 					<Link to="/" className="homeLink">Home</Link>
