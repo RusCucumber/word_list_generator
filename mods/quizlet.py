@@ -13,7 +13,7 @@ class Quizlet:
         self.words = []
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--window-size=1024, 2048')
-        #chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--headless')
         self.__browser = webdriver.Chrome(chrome_options=chrome_options)
 
     def degree_downer(self):
