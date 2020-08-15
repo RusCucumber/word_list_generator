@@ -125,7 +125,7 @@ class Results extends React.Component{
 				:
 					this.state.results?
 						<div className="ui lemmaContainer">
-							<div onClick={this.handleSubmit} className="finalSubmitBtnContainer"><span  className="finalSubmitBtn">GO 🡆</span></div>
+							<div onClick={this.handleSubmit} className="finalSubmitBtnContainer"><span  className="finalSubmitBtn">GO ⇨</span></div>
 							<div className="lemmaListWrapper">
 								<div className="lemmaListWrap">
 									{this.renderResults()}
