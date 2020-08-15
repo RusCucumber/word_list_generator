@@ -568,6 +568,7 @@
 	cursor: pointer;
 	color: #028090
 }
+
 @media only screen and (max-width: 600px){
 	.markerField{
 		width: 80vw;
