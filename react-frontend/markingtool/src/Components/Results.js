@@ -1,34 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router'
 import {saveCSV} from '../actions'
 import ScaleLoader from "react-spinners/ScaleLoader"
 import {API_URL, API_HEADERS} from "../config"
 
 class Results extends React.Component{
-	//CHANGE
-	fakeResults = [
-		["origin0", "translated"],
-		["origin1", "translated"],
-		["origin2", "translated"],
-		["origin3", "translated"],
-		["origin4", "translated"],
-		["origin5", "translatdddded"],
-		["origin6", "translated"],
-		["origin7", "translated"],
-		["origin8", "translated"],
-		["origin9", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-		["origin0", "translated"],
-	]
 	state ={
 		results:null,
 		error:null,
@@ -41,16 +17,10 @@ class Results extends React.Component{
 		if(this.props.results===null && this.props.errors===null){
 			this.props.history.push('/')
 		}else if(this.props.errors===null){
-			console.log("Words selected in frontend:", this.props.words)
 			this.setState({
-				//CHANGE
-				// results: this.fakeResults.map((words,id)=>{
-				// 	return [...words,id]
-				// })
 				results: this.props.results.word_list,	
 			})
 		}else{
-			console.log(this.props.errors)
 			this.setState({
 				error:this.props.errors,
 				errorSet:true
@@ -70,7 +40,6 @@ class Results extends React.Component{
 	}
 	handleSubmit=()=>{
 		const w = this.state.results.filter(word=>!this.state.dontShow.includes(word[2])||word[0].length===0||word[1].length===0)
-		console.log("PRECSV",w)
 		this.setState({
 			loading:true
 		})
