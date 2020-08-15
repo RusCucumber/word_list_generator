@@ -1,4 +1,5 @@
 from application import app
+import os
 
 if __name__ == "__main__":
     port = os.getenv("PORT")
