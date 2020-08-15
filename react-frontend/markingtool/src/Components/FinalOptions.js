@@ -15,8 +15,9 @@ class FinalOptions extends React.Component{
 		loading: false,
 		quizletURL:"",
 		requestingQuizlet: false,
-		id:"12345",
-		scheduleID:""
+		id:"",
+		scheduleID:"",
+		quizletError:false
 	}
 	componentDidMount(){
 		this.setState({
@@ -44,21 +45,17 @@ class FinalOptions extends React.Component{
 				this.setState({
 					requestingQuizlet:true,
 					loading:true,
-					id: "12345",
+					id: r.data.id,
+					scheduleID: setInterval(this.requestScheduler, 2000)
 				})
 			}
 		},e=>{console.log(e)})
-		.then(r=>{
-			if(r.data.result==="OK"){
-				this.setState({scheduleID: setInterval(this.requestScheduler, 2000)})
-			}
-		})
 	}
 
 	requestScheduler = () =>{
 		console.log("Running schedule")
 		const id = this.state.id
-		axios.post(API_URL + "/quizletresult",{id},API_HEADERS)
+		axios.post(API_URL + "/仮URL",{id},API_HEADERS)
 		.then(r=>{
 			if(r.data.result==="OK"){
 				this.setState({
@@ -67,7 +64,18 @@ class FinalOptions extends React.Component{
 					quizletURL:r.data.url
 				})
 				clearInterval(this.state.scheduleID)
+			}else if(r.data.result==="NG"){
+				console.log("処理中")
 			}
+		},e=>{
+			e.response.status===404?clearInterval(this.state.scheduleID):console.log(e.response)
+			this.setState({
+				loading: false,
+				requestingQuizlet:false,
+				id:"",
+				scheduleID:"",
+				quizletError:true,
+			})
 		})
 	}
 	renderForm =()=>{
@@ -82,6 +90,7 @@ class FinalOptions extends React.Component{
 				     	 		color={"#F45B69"}
 				      			loading={this.state.loading}
 				      			/>
+				      			<div className="processing">処理中です。30秒ほどかかります。</div>
 				      		</div>
 	          			:
 			          		<div className="quizletFormContainer">
@@ -96,6 +105,7 @@ class FinalOptions extends React.Component{
 								</div>
 							
 								<input className="quizletFormSubmit" type="submit" value="Sign in"/>
+								{this.state.quizletError ? <div className="processingError">もう一度実行してみてください。</div> : null}
 							</div>
 					}
 				</form>
@@ -103,15 +113,6 @@ class FinalOptions extends React.Component{
 	}
 	renderURL=()=>{
 		return(
-			this.state.loading?
-				<div className="quizletLoad">
-					<ScaleLoader 
-					size={200}
-	     	 		color={"#F45B69"}
-	      			loading={this.state.loading}
-	      			/>
-      			</div>
-			:
 			<div className="quizletURLContainer">
 				<a href={this.state.quizletURL} target="_blank" className="quizletURL">quizletCards</a>
 			</div>
