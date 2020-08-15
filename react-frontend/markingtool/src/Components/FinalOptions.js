@@ -40,22 +40,26 @@ class FinalOptions extends React.Component{
 
 		axios.post(API_URL+"/quizlet", {username, password, words:csvData}, API_HEADERS)
 		.then(r=>{
-			console.log(r.data)
 			if(r.data.result==="OK"){
 				this.setState({
 					requestingQuizlet:true,
-					loading:true,
 					id: r.data.id,
 					scheduleID: setInterval(this.requestScheduler, 2000)
+				})
+			}else if(r.data.result==="NG"){
+				this.setState({
+					loading:false,
+					quizletError:true,
 				})
 			}
 		},e=>{console.log(e)})
 	}
 
 	requestScheduler = () =>{
+		//バックで非同期処理の状態を確認する
 		console.log("Running schedule")
 		const id = this.state.id
-		axios.post(API_URL + "/仮URL",{id},API_HEADERS)
+		axios.post(API_URL + "/quizletprogress",{id},API_HEADERS)
 		.then(r=>{
 			if(r.data.result==="OK"){
 				this.setState({
