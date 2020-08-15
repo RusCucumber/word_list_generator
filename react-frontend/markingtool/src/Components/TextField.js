@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {inputText} from '../actions'
-import {withRouter} from 'react-router'
 import "./App.css"
 class TextField extends React.Component{
 	state={

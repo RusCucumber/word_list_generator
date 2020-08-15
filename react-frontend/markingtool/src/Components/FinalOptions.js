@@ -5,7 +5,6 @@ import {CSVLink, CSVDownload} from "react-csv"
 import {Link} from "react-router-dom"
 import ScaleLoader from "react-spinners/ScaleLoader"
 import axios from 'axios'
-const debug = false
 
 
 class FinalOptions extends React.Component{
@@ -14,22 +13,21 @@ class FinalOptions extends React.Component{
 		password:"",
 		csvData: [],
 		loading: false,
-		quizletURL:""
+		quizletURL:"",
+		requestingQuizlet: false,
+		id:"",
+		scheduleID:"",
+		quizletError:false
 	}
 	componentDidMount(){
-		
 		this.setState({
 			csvData: this.props.csvElements
 		})
 		
 	}
-	createCSV=()=>{
-		const csvRows = []
-	}
 	handleChange=e=>{
 		e.preventDefault()
 		const {name, value} = e.target
-		console.log(this.state)
 		this.setState({
 			[name]:value
 		})
@@ -39,22 +37,46 @@ class FinalOptions extends React.Component{
 		const {password, username, csvData} = this.state
 		console.log("POSTING TO /quizlet",{username, password, words:csvData})
 		this.setState({loading:true})
-		if(!debug){
-			axios.post(API_URL+"/quizlet", {username, password, words:csvData}, API_HEADERS)
-			.then(r=>{
-				console.log(r.data)
+
+		axios.post(API_URL+"/quizlet", {username, password, words:csvData}, API_HEADERS)
+		.then(r=>{
+			console.log(r.data)
+			if(r.data.result==="OK"){
+				this.setState({
+					requestingQuizlet:true,
+					loading:true,
+					id: r.data.id,
+					scheduleID: setInterval(this.requestScheduler, 2000)
+				})
+			}
+		},e=>{console.log(e)})
+	}
+
+	requestScheduler = () =>{
+		console.log("Running schedule")
+		const id = this.state.id
+		axios.post(API_URL + "/仮URL",{id},API_HEADERS)
+		.then(r=>{
+			if(r.data.result==="OK"){
 				this.setState({
 					loading:false,
+					requestingQuizlet:false,
 					quizletURL:r.data.url
 				})
-			},e=>{console.log(e)})
-		}else{
-			setTimeout(()=>this.setState({
-				loading:false,
-				quizletURL:"https://www.hhhhhhahahahahahaha.com"
-			}), 30000)
-			
-		}
+				clearInterval(this.state.scheduleID)
+			}else if(r.data.result==="NG"){
+				console.log("処理中")
+			}
+		},e=>{
+			e.response.status===404?clearInterval(this.state.scheduleID):console.log(e.response)
+			this.setState({
+				loading: false,
+				requestingQuizlet:false,
+				id:"",
+				scheduleID:"",
+				quizletError:true,
+			})
+		})
 	}
 	renderForm =()=>{
 		return(
@@ -68,6 +90,7 @@ class FinalOptions extends React.Component{
 				     	 		color={"#F45B69"}
 				      			loading={this.state.loading}
 				      			/>
+				      			<div className="processing">処理中です。30秒ほどかかります。</div>
 				      		</div>
 	          			:
 			          		<div className="quizletFormContainer">
@@ -82,6 +105,7 @@ class FinalOptions extends React.Component{
 								</div>
 							
 								<input className="quizletFormSubmit" type="submit" value="Sign in"/>
+								{this.state.quizletError ? <div className="processingError">もう一度実行してみてください。</div> : null}
 							</div>
 					}
 				</form>
@@ -89,15 +113,6 @@ class FinalOptions extends React.Component{
 	}
 	renderURL=()=>{
 		return(
-			this.state.loading?
-				<div className="quizletLoad">
-					<ScaleLoader 
-					size={200}
-	     	 		color={"#F45B69"}
-	      			loading={this.state.loading}
-	      			/>
-      			</div>
-			:
 			<div className="quizletURLContainer">
 				<a href={this.state.quizletURL} target="_blank" className="quizletURL">quizletCards</a>
 			</div>

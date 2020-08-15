@@ -2,10 +2,10 @@ import React from 'react'
 import "./App.css"
 import {connect} from 'react-redux'
 import {saveResults, setError, saveWords} from '../actions'
-import {withRouter} from 'react-router'
 import {API_URL, API_HEADERS} from "../config"
 import axios from 'axios'
 import ScaleLoader from "react-spinners/ScaleLoader"
+
 class MarkerField extends React.Component{
 	state ={
 		loading: false,
@@ -49,24 +49,23 @@ class MarkerField extends React.Component{
 	}
 	handleSubmit=e=>{
 		if(this.state.index.length>0){
-			const wordList = this.state.sentence.split(" ")
-			const words = wordList.filter((word, id)=>this.state.index.includes(id))
+			const words = this.state.sentence.split(" ").filter((word, id)=>this.state.index.includes(id))
 			this.setState({
 				loading:true
 			})
 			this.props.saveWords(words)
 			const {sentence, index} = this.state
 			index.sort((a,b) => a-b)
-			console.log("SENDING DATA: ", {sentence, index, selectedWords:words})
+			// console.log("SENDING DATA: ", {sentence, index, selectedWords:words})
 			axios.post(API_URL+"/lemmatisation", {sentence, index, selectedWords:words}, API_HEADERS)
 			.then(r=>{
-				console.log("Post request response", r.data)
+				// console.log("Post request response", r.data)
 				this.setState({
 					loading:false
 				})
 				this.props.saveResults(r.data)
 				}, e=>{
-				console.log("Error")
+				// console.log("Error")
 				this.props.setError(e.response)
 				}
 			)
