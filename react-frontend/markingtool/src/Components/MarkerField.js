@@ -89,8 +89,8 @@ class MarkerField extends React.Component{
       		:
 				<div className="ui markerField" >
 					<div className="submitMarker">
-						<div className="backBtnContainer"><span className="goBackBtn" onClick={this.handleBack}>🡄 BACK</span></div>
-						<div className="submitBtnContainer"><span className="submitMarkerText" onClick={this.handleSubmit}>GO 🡆</span></div>
+						<div className="backBtnContainer"><span className="goBackBtn" onClick={this.handleBack}>⇦ BACK</span></div>
+						<div className="submitBtnContainer"><span className="submitMarkerText" onClick={this.handleSubmit}>GO ⇨</span></div>
 					</div>
 					
 					<div className="markerFieldText">

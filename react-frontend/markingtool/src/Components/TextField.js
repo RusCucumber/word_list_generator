@@ -37,7 +37,7 @@ class TextField extends React.Component{
 							</div>
 						</div>
 
-						<div className="explanationArrow">🡆</div>
+						<div className="explanationArrow">⇨</div>
 
 						<div className="resultIcon">
 							<div className="resultIconBoxOne">これ</div>
