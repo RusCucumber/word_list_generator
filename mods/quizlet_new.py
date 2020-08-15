@@ -1,26 +1,22 @@
 #真の完成版
 
 from selenium import webdriver
+import chromedriver_binary
 import time
 import datetime
-import pandas as pd
 from selenium.webdriver.support.ui import Select
-
-
-# ここから
-USER = "usagi_inaba"
-PSWD = "artificialINTELLIGENCE"
-words_given = [['China', '中国'], ['imposes', '課す'], ['sanctions', '制裁'], ['HongKong', '香港'], ['morning', '朝'], ['hello', 'こんにちは']]
-#　ここまでは仮です
-
+from selenium.webdriver.chrome.options import Options
 
 class Quizlet:
 
     def __init__(self, words_given):
         self.words_given = words_given
         self.words = []
-        self.__browser = webdriver.Chrome(executable_path="C:/Users/ShizukiKubota/Desktop/MyPandas/chromedriver.exe")
-        # pathも変える必要あり
+        options = Options()
+        # Heroku以外ではNone
+        options.add_argument('--headless')
+
+        self.__browser = webdriver.Chrome(options = options)
 
     def open_to_login(self, USER, PSWD):
 
@@ -42,6 +38,9 @@ class Quizlet:
         element = self.__browser.find_element_by_id("password")
         element.clear()
         element.send_keys(PSWD)
+
+        del USER
+        del PSWD
 
         #ログインボタンクリック
         browser_from = self.__browser.find_element_by_class_name("UILoadingButton")
@@ -75,7 +74,6 @@ class Quizlet:
             browser_from = self.__browser.find_element_by_xpath("/html/body/div[3]/main/div/div/div[1]/div[3]/div/button")
             time.sleep(3)
             browser_from.click()
-
 
         #カンマを選択
         browser_from = self.__browser.find_element_by_xpath("/html/body/div[3]/main/div/div/div[3]/div[1]/div/form/div[2]/div[1]/div/label[2]/input")
@@ -152,8 +150,5 @@ class Quizlet:
         self.complete_creation()
         return self.get_url()
 
-
-###　main  ###
-q = Quizlet(words_given)
-q.open_to_login(USER, PSWD)
-q.entire_action()
+if __name__ == "__main__":
+    pass
