@@ -71,13 +71,12 @@ class FinalOptions extends React.Component{
 		const id = this.state.id
 		axios.post(API_URL + "/quizletprogress",{id},API_HEADERS)
 		.then(r=>{
+			console.log(r.data)
 			if(r.data.result==="OK"){
 				if(r.data.url===""){
 					this.setState({
 						loading: false,
 						requestingQuizlet:false,
-						id:"",
-						scheduleID:"",
 						quizletError:true,
 					})
 				}else if(r.data.url!==""){
