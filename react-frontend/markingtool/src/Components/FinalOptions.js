@@ -40,6 +40,7 @@ class FinalOptions extends React.Component{
 
 		axios.post(API_URL+"/quizlet", {username, password, words:csvData}, API_HEADERS)
 		.then(r=>{
+			console.log("First POST response (Initializes async task and gets ID)",r.data)
 			if(r.data.result==="OK"){
 				this.setState({
 					requestingQuizlet:true,
@@ -57,7 +58,7 @@ class FinalOptions extends React.Component{
 
 	requestScheduler = () =>{
 		//バックで非同期処理の状態を確認する
-		console.log("Running schedule")
+		console.log("Running schedule, waiting for URL")
 		const id = this.state.id
 		axios.post(API_URL + "/quizletprogress",{id},API_HEADERS)
 		.then(r=>{

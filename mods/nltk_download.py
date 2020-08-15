@@ -10,4 +10,4 @@ def nltk_download():
         return "NG", "download faild"
 
 if __name__ == "__main__":
-    pass
+    nltk_download()
