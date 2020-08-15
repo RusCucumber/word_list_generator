@@ -21,10 +21,11 @@ def get_quizlet():
 
         if response["status"] == "OK":
             try:
-                quizlet_generate.delay(username, password, words)
+                quiz_id = id_generator()
+                quizlet_generate.delay(username, password, words, quiz_id)
                 response["result"] = "OK"
                 response["status"] = "Async start"
-                response["id"] = id_generator()
+                response["id"] = quiz_id
             except:
                 response["status"] = "Async failed"
 

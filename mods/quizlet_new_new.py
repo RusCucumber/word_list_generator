@@ -1,20 +1,9 @@
 from selenium import webdriver
 import time
 import datetime
-import pandas as pd
+import chromedriver_binary
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
-
-
-
-
-# ここから
-USER = "usagi_inaba"
-PSWD = "artificialINTELLIGENCE"
-words_given = [['China', '中国'], ['imposes', '課す'], ['sanctions', '制裁'], ['HongKong', '香港'], ['morning', '朝'], ['hello', 'こんにちは']]
-#　ここまでは仮です
-
-
 
 class Quizlet:
 
@@ -22,9 +11,8 @@ class Quizlet:
         self.words_given = words_given
         self.words = []
         options = Options()
-        options.add_argument("--headlines")
-
-        self.__browser = webdriver.Chrome(options = options, executable_path="C:/Users/ShizukiKubota/Desktop/MyPandas/chromedriver.exe")
+        options.add_argument('--headless')
+        self.__browser = webdriver.Chrome(options = options)#, executable_path="C:/Users/ShizukiKubota/Desktop/MyPandas/chromedriver.exe")
         # pathも変える必要あり
 
 
@@ -47,7 +35,6 @@ class Quizlet:
         browser_from.click()
         time.sleep(3)
 
-
         #ユーザー名パスワード入力
         element = self.__browser.find_element_by_id("username")
         element.clear()
@@ -56,13 +43,14 @@ class Quizlet:
         element.clear()
         element.send_keys(PSWD)
 
+        del USER
+        del PSWD
+
         #ログインボタンクリック
         browser_from = self.__browser.find_element_by_class_name("UILoadingButton")
         time.sleep(3)
         browser_from.click()
         time.sleep(3)
-
-
 
         #インポート画面出す
         try:
@@ -151,12 +139,3 @@ class Quizlet:
         cur_url = cur_url[0:-4]
 
         return cur_url
-
-
-
-###　main  ###
-q = Quizlet(words_given)
-q.degree_downer()
-q.create_new(USER, PSWD)
-q.set_language()  # ここでURL取得します
-print(q.get_url())
