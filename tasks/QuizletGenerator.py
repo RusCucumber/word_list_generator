@@ -1,5 +1,6 @@
 from application import worker
-from mods.quizlet_new import Quizlet
+#from mods.quizlet_new import Quizlet
+from mods.quizlet_new_new import Quizlet
 import traceback
 
 @worker.task()
@@ -12,10 +13,13 @@ def quizlet_generate(username, password, words):
 
         try:
             q = Quizlet(words)
-            q.open_to_login(username, password)
-            url = q.entire_action()
+            q.degree_downer()
+            q.create_new(username, password)
+            q.set_language()
+            url = q.get_url()
             print(url)
         except:
+            print("Trial: {} time(s)".format(i))
             print(traceback.format_exc())
 
     # DBに突っ込む
