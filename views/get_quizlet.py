@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request, jsonify
 from mods.check_parameter import check_parameter
 from mods.id_generator import id_generator
 
-from tasks.QuizletGenerator import quizlet_generate
+from my_tasks.QuizletGenerator import quizlet_generate
 
 GET_QUIZLET = Blueprint("GET_QUIZLET", __name__, url_prefix="/api")
 
