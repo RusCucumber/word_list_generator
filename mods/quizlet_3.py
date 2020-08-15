@@ -1,18 +1,20 @@
 from selenium import webdriver
 import time
 import datetime
+import chromedriver_binary
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 
 
-
+"""
 # ここから
 USER = "usagi_inaba"
 PSWD = "artificialINTELLIGENCE"
 words_given = [['China', '中国'], ['imposes', '課す'], ['sanctions', '制裁'], ['HongKong', '香港'], ['morning', '朝'], ['hello', 'こんにちは']]
 #　ここまでは仮です
+"""
 
 class Quizlet:
 
@@ -22,7 +24,7 @@ class Quizlet:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--window-size=1024, 2048')
         chrome_options.add_argument('--headless')
-        self.__browser = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/Users/ShizukiKubota/Desktop/MyPandas/chromedriver.exe")
+        self.__browser = webdriver.Chrome(chrome_options=chrome_options)#, executable_path="C:/Users/ShizukiKubota/Desktop/MyPandas/chromedriver.exe")
 
     def degree_downer(self):
         for i in range(len(self.words_given)):
@@ -60,7 +62,7 @@ class Quizlet:
         #return "login completed"
 
         #wait=WebDriverWait(self.__browser,20)
-        self.__browser.implicitly_wait(30)
+        self.__browser.implicitly_wait(3)
         browser_from = self.__browser.find_element_by_css_selector("#SiteHeaderReactTarget > header > div > div > div.SiteHeader-transitionGroupWrapper > span.SiteHeader-headerItemsTransitionGroup > div > div.SiteHeader-create.SiteHeader-section > a")
         #self.__browser.execute_script("arguments[0].scrollIntoView(true);", browser_from)
         #wait.until(expected_conditions.element_to_be_clickable((By.XPATH,webElement)))
@@ -163,13 +165,18 @@ class Quizlet:
         self.complete_creation()
         return self.get_url()
 
-
+"""
 ###　main  ###
 q = Quizlet(words_given)
-q.degree_downer()
-q.open_to_login(USER, PSWD)
-q.entire_action()
+try:
+    q.degree_downer()
+    q.open_to_login(USER, PSWD)
+    q.entire_action()
 
+    q.finish()
+except:
+    q.finish()
+"""
 
 
 
