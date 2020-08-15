@@ -53,8 +53,17 @@ class FinalOptions extends React.Component{
 					quizletError:true,
 				})
 			}
-		},e=>{console.log(e)})
-	}
+		},e=>{
+			clearInterval(this.state.scheduleID)
+			this.setState({
+				loading: false,
+				requestingQuizlet:false,
+				id:"",
+				scheduleID:"",
+				quizletError:true,
+			})
+			})
+		}
 
 	requestScheduler = () =>{
 		//バックで非同期処理の状態を確認する
@@ -63,11 +72,21 @@ class FinalOptions extends React.Component{
 		axios.post(API_URL + "/quizletprogress",{id},API_HEADERS)
 		.then(r=>{
 			if(r.data.result==="OK"){
-				this.setState({
-					loading:false,
-					requestingQuizlet:false,
-					quizletURL:r.data.url
-				})
+				if(r.data.url===""){
+					this.setState({
+						loading: false,
+						requestingQuizlet:false,
+						id:"",
+						scheduleID:"",
+						quizletError:true,
+					})
+				}else if(r.data.url!==""){
+					this.setState({
+						loading:false,
+						requestingQuizlet:false,
+						quizletURL:r.data.url
+					})
+				}
 				clearInterval(this.state.scheduleID)
 			}else if(r.data.result==="NG"){
 				console.log("処理中")
