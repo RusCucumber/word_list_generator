@@ -11,6 +11,7 @@ from views.home import HOME
 from views.nltk_init import NLTK_INIT
 from views.get_words import GET_WORDS
 from views.get_quizlet import GET_QUIZLET
+from views.get_url_by_id import GET_URL_BY_ID
 
 app.register_blueprint(HOME)
 app.register_blueprint(TEST)
@@ -22,3 +23,5 @@ app.register_blueprint(NLTK_INIT)
 app.register_blueprint(GET_WORDS)
 
 app.register_blueprint(GET_QUIZLET)
+
+app.register_blueprint(GET_URL_BY_ID)
