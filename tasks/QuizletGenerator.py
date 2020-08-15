@@ -1,7 +1,8 @@
 from application import worker
 #from mods.quizlet_new_new import Quizlet
-from mods.quizlet_3 import Quizlet
+from mods.quizlet import Quizlet
 from mods.DB import ReadWriteDB
+from application import conn
 import traceback
 
 @worker.task()
@@ -12,19 +13,24 @@ def quizlet_generate(username, password, words, quiz_id):
         if url != "":
             break
 
+        # しずき遅くまでありがとう！
+        q = Quizlet(words)
         try:
-            q = Quizlet(words)
             q.degree_downer()
-            q.open_to_login(username, password)
-            url = q.entire_action()
+            q.create_new(username, password)
+            q.set_language()
+            url = q.get_url()
+            q.finish()
             print(url)
         except:
+            q.finish()
             print("Trial: {} time(s)".format(i))
             print(traceback.format_exc())
 
     try:
-        db = ReadWriteDB()
-        db.Write(data = {"id": quiz_id, "url": url})
+        #db = ReadWriteDB()
+        conn.Write(data = {"id": quiz_id, "url": url})
+        #db.Close()
     except:
         print(traceback.format_exc())
         

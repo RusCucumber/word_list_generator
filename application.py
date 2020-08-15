@@ -6,6 +6,10 @@ from worker import make_celery
 
 worker = make_celery(app)
 
+from mods.DB import ReadWriteDB
+
+conn = ReadWriteDB()
+
 from views.test import TEST
 from views.home import HOME
 from views.nltk_init import NLTK_INIT
