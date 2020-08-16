@@ -4,6 +4,7 @@ import TextField from './TextField'
 import MarkerField from './MarkerField'
 import Results from './Results'
 import FinalOptions from './FinalOptions'
+import MemCards from './MemCards'
 import  "./App.css"
 
 const App =()=>{
@@ -15,6 +16,7 @@ const App =()=>{
 					<Route path="/marker" exact component={MarkerField}/>
 					<Route path="/results" exact component={Results}/>
 					<Route path="/finaloptions" exact component={FinalOptions}/>
+					<Route path="/memcards" exact component={MemCards}/>
 				</div>
 			</HashRouter>
 		</div>
