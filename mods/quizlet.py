@@ -1,7 +1,7 @@
 from selenium import webdriver
 import time
 import datetime
-import chromedriver_binary
+#import chromedriver_binary
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -12,8 +12,8 @@ class Quizlet:
         self.words_given = words_given
         self.words = []
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--window-size=1024, 2048')
-        #chrome_options.add_argument('--headless')
+        #chrome_options.add_argument('--window-size=1024, 2048')
+        chrome_options.add_argument('--headless')
         self.__browser = webdriver.Chrome(chrome_options=chrome_options)
 
     def degree_downer(self):

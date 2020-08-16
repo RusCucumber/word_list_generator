@@ -1,2 +1,2 @@
 web: python run.py
-worker: celery worker -A application.worker -l info
+worker: pipenv run celery worker -A application.worker -l info

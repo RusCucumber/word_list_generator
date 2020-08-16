@@ -6,4 +6,4 @@ import os
 broker_url = os.getenv("REDIS_URL")
 result_backed = os.getenv("REDIS_URL")
 
-include = ["tasks"]
+include = ["my_tasks"]

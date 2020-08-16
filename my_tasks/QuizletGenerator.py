@@ -1,7 +1,5 @@
 from application import worker
-#from mods.quizlet_new_new import Quizlet
 from mods.quizlet import Quizlet
-from mods.DB import ReadWriteDB
 from application import conn
 import traceback
 
