@@ -2,10 +2,16 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {inputText} from '../actions'
+import axios from 'axios'
+import {API_URL, API_HEADERS} from "../config"
 import "./App.css"
+
 class TextField extends React.Component{
 	state={
 		inputText: "",
+	}
+	componentDidMount(){
+		axios.post(API_URL + "/init", {"command":"download"}, API_HEADERS)
 	}
 
 	handleChange=e=>{
