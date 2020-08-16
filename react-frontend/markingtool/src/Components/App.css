@@ -665,11 +665,11 @@
 	justify-items:center;
 	align-items:center;
 	font-family: 'Noto Sans JP', sans-serif;
-	font-size:4rem;
+	font-size:5rem;
 	background-color: #028090;
 	color: #e4fde1;
-	min-width: 20rem;
-	min-height: 10rem;
+	min-width: 35rem;
+	min-height: 18rem;
 	padding:4rem;
 	border-radius: 8px
 }
@@ -679,11 +679,11 @@
 	justify-items:center;
 	align-items:center;
 	font-family: 'arial', sans-serif;
-	font-size:4rem;
+	font-size:5rem;
 	background-color: #114b5f;
 	color: #e4fde1;
-	min-width: 20rem;
-	min-height: 10rem;
+	min-width: 35rem;
+	min-height: 18rem;
 	padding:4rem;
 	border-radius: 8px
 }
