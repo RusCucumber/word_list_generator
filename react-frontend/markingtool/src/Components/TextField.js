@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {inputText} from '../actions'
 import "./App.css"
@@ -57,6 +58,9 @@ class TextField extends React.Component{
 						autoComplete="off"
 					/>
 				</form>
+				<div className="homeCSV">
+				<Link to="/memcards" className="homeLink" style={{fontSize:"1.5rem", "textAlign":"center", "fontWeight":"normal","color":"#588c80"}}>お持ちのcsvでスタート</Link>
+				</div>
 			</div>
 		)
 	}
